@@ -1,10 +1,12 @@
 ﻿using ApiApplicationProject.Models;
 using ApiApplicationProject.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiApplicationProject.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
 
     [ApiController]
@@ -40,7 +42,7 @@ namespace ApiApplicationProject.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManager.FindByIdAsync(action.ApplicationUserId);
       
             _actionService.CreateEvent(action, user.Id);
 
