@@ -16,7 +16,7 @@ namespace ApiApplicationProject
             base.OnModelCreating(modelBuilder);
             // ...
         }
-        public DbSet<ActionModel> Actions { get; set; }
+        public DbSet<ActivityModel> Activities { get; set; }
 
     }
 

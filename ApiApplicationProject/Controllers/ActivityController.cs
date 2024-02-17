@@ -10,15 +10,17 @@ namespace ApiApplicationProject.Controllers
     [Route("api/[controller]")]
 
     [ApiController]
-    public class ActionsController : ControllerBase
+    public class ActivityController : ControllerBase
     {
-        private readonly IActionService _actionService;
+        private readonly ILogger<ActivityController> _logger;
+        private readonly IActivityService _actionService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ActionsController(IActionService actionService, UserManager<ApplicationUser> userManager)
+        public ActivityController(IActivityService actionService, UserManager<ApplicationUser> userManager, ILogger<ActivityController> logger)
         {
             _actionService = actionService;
             _userManager = userManager;
+            _logger = logger;
         }
         [HttpGet("Event")]
         public async Task<IActionResult> GetEvents()
@@ -30,24 +32,32 @@ namespace ApiApplicationProject.Controllers
         public async Task<IActionResult> GetEventAsync(int id)
         {
             var action = _actionService.GetEventById(id);
-            if (action is null)   return NotFound();
-          
+            if (action is null) return NotFound();
+
             return Ok(action);
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> PostEvent(EvntModel action)
+        public async Task<IActionResult> PostEvent(ActivityModel activity )
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var user = await _userManager.FindByIdAsync(action.ApplicationUserId);
-      
-            _actionService.CreateEvent(action, user.Id);
+            var user = await _userManager.FindByIdAsync(activity.ApplicationUserId);
+
+            _actionService.CreateEvent(activity, user.Id);
 
 
             return Ok();
         }
+
+        [HttpGet("Log")]
+        public async Task<IActionResult> Getlog()
+        {
+            var actions = _actionService.GetLog();
+            return Ok(actions);
+        }
     }
 }
+

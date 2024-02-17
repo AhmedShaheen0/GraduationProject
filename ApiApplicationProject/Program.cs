@@ -14,7 +14,7 @@ ConfigurationManager configuration = builder.Configuration;
 
 
 builder.Services.AddScoped<IAuthServiece, AuthService>();
-builder.Services.AddScoped<IActionService, ActionService>();
+builder.Services.AddScoped<IActivityService, ActivityService>();
 
 builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
@@ -24,7 +24,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 
 // Adding Authentication
 builder.Services.AddAuthentication(options =>

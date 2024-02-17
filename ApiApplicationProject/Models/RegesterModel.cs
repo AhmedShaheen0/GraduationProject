@@ -16,7 +16,7 @@ namespace ApiApplicationProject.Models
         [MaxLength(100)]
         
         public string Password { get; set; }
-        public DateTime Birthday { get; set; }
+        public int Age { get; set; } = 17;
 
 
     }
